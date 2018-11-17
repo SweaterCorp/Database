@@ -92,10 +92,8 @@ CREATE TABLE [SizeType]
 (
      [SizeTypeId]  INT IDENTITY(1, 1) NOT NULL, 
      [Russian] NVARCHAR(10) NOT NULL, 
-	 [International] NVARCHAR(10) NOT NULL, 
-     [Europa]  NVARCHAR(10) NOT NULL, 
-     [China]   NVARCHAR(10) NOT NULL, 
-     [USA]     NVARCHAR(10) NOT NULL, 
+	 [Other] NVARCHAR(10) NOT NULL, 
+     [CountySizeType]  NVARCHAR(10) NOT NULL, 
      CONSTRAINT [PK_SizeType] PRIMARY KEY CLUSTERED([SizeTypeId] ASC)
 );
 GO
@@ -147,15 +145,14 @@ CREATE TABLE [Product]
      [BrandId]         INT NOT NULL, 
      [VendorCode]      NVARCHAR(30) NOT NULL, 
      [CategoryId]      INT NOT NULL, 
-     [StyleId]     INT NOT NULL, 
+     [StyleTypeId]     INT NOT NULL, 
      [Price]           INT NOT NULL, 
      [Description]     NVARCHAR(400) NOT NULL, 
      [Link]            NVARCHAR(100) NOT NULL, 
      [MadeInCountryId] INT NOT NULL, 
      [PhotoPreviewUrl] NVARCHAR(100) NOT NULL, 
      [CreatedDate]     DATETIME2 NOT NULL DEFAULT(GETDATE()), 
-     [IsDeleted]       BIT NOT NULL
-                           DEFAULT(0), 
+     [IsDeleted]       BIT NOT NULL DEFAULT(0), 
      CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED([ProductId] ASC)
 );
 GO
@@ -169,13 +166,22 @@ CREATE TABLE [ProductPhoto]
 );
 GO
 
-CREATE TABLE [ProductSize]
+CREATE TABLE [ProductSizeType]
 (
      [ProductId]     INT NOT NULL, 
-     [SizeId]        INT NOT NULL, 
-     [ColorId]   INT NOT NULL, 
-     [Count]         INT NOT NULL DEFAULT(0), 
+     [SizeTypeId]        INT NOT NULL, 
+	 [IsAvailable]   BIT NOT NULL DEFAULT(0), 
      [UpdatedDate]   DATETIME2 NOT NULL DEFAULT(GETDATE()), 
-     CONSTRAINT [PK_ProductSize] PRIMARY KEY CLUSTERED([ProductId], [SizeId])
+     CONSTRAINT [PK_ProductSizeType] PRIMARY KEY CLUSTERED([ProductId], [SizeTypeId])
+);
+GO
+
+CREATE TABLE [ProductColorType]
+(
+     [ProductId]     INT NOT NULL, 
+     [ColorTypeId]   INT NOT NULL, 
+	 [IsAvailable]   BIT NOT NULL DEFAULT(0), 
+     [UpdatedDate]   DATETIME2 NOT NULL DEFAULT(GETDATE()), 
+     CONSTRAINT [PK_ProductColorType] PRIMARY KEY CLUSTERED([ProductId], [ColorTypeId])
 );
 GO
