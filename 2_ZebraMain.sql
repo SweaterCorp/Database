@@ -55,31 +55,31 @@ CREATE TABLE [UserPhoto]
 );
 GO
 
-CREATE TABLE [dbo].[SexId]
+CREATE TABLE [dbo].[SexTypeId]
 (
-     [SexId]   INT NOT NULL, 
+     [SexTypeId]   INT NOT NULL, 
      [EnglishName] NVARCHAR(100) NOT NULL, 
      [RussianName] NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_Social] PRIMARY KEY CLUSTERED([SexId] ASC)
+     CONSTRAINT [PK_Social] PRIMARY KEY CLUSTERED([SexTypeId] ASC)
 );
 GO
 
-CREATE TABLE [dbo].[Shape]
+CREATE TABLE [dbo].[ShapeType]
 (
-     [ShapeId] INT NOT NULL, 
+     [ShapeTypeId] INT NOT NULL, 
      [EnglishName] NVARCHAR(100) NOT NULL, 
      [RussianName] NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_Shape] PRIMARY KEY CLUSTERED([ShapeId] ASC)
+     CONSTRAINT [PK_ShapeType] PRIMARY KEY CLUSTERED([ShapeTypeId] ASC)
 );
 GO
 
-CREATE TABLE [dbo].[HumanColor]
+CREATE TABLE [dbo].[HumanColorType]
 (
-     [HumanColorId] INT NOT NULL, 
+     [HumanColorTypeId] INT NOT NULL, 
      [Hex]				VARCHAR(6) NULL,
      [EnglishName]      NVARCHAR(100) NOT NULL, 
      [RussianName]      NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_HumanColor] PRIMARY KEY CLUSTERED([HumanColorId] ASC)
+     CONSTRAINT [PK_HumanColorType] PRIMARY KEY CLUSTERED([HumanColorTypeId] ASC)
 );
 GO
 
@@ -88,14 +88,15 @@ GO
 ------------------------------------
 -- Product
 
-CREATE TABLE [Size]
+CREATE TABLE [SizeType]
 (
-     [SizeId]  INT IDENTITY(1, 1) NOT NULL, 
+     [SizeTypeId]  INT IDENTITY(1, 1) NOT NULL, 
      [Russian] NVARCHAR(10) NOT NULL, 
+	 [International] NVARCHAR(10) NOT NULL, 
      [Europa]  NVARCHAR(10) NOT NULL, 
      [China]   NVARCHAR(10) NOT NULL, 
      [USA]     NVARCHAR(10) NOT NULL, 
-     CONSTRAINT [PK_Size] PRIMARY KEY CLUSTERED([SizeId] ASC)
+     CONSTRAINT [PK_SizeType] PRIMARY KEY CLUSTERED([SizeTypeId] ASC)
 );
 GO
 
@@ -119,24 +120,24 @@ CREATE TABLE [dbo].[Category]
 );
 GO
 
-CREATE TABLE [dbo].[Color]
+CREATE TABLE [dbo].[ColorType]
 (
-     [ColorId] INT IDENTITY(1, 1) NOT NULL, 
+     [ColorTypeId] INT IDENTITY(1, 1) NOT NULL, 
 	 [R] TINYINT NULL,
 	 [G] TINYINT NULL,
 	 [B] TINYINT NULL,
      [EnglishName] NVARCHAR(100) NOT NULL, 
      [RussianName] NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_Color] PRIMARY KEY CLUSTERED([ColorId] ASC)
+     CONSTRAINT [PK_ColorType] PRIMARY KEY CLUSTERED([ColorTypeId] ASC)
 );
 GO
 
-CREATE TABLE [dbo].[Style]
+CREATE TABLE [dbo].[StyleType]
 (
-     [StyleId] INT IDENTITY(1, 1) NOT NULL, 
+     [StyleTypeId] INT IDENTITY(1, 1) NOT NULL, 
      [EnglishName] NVARCHAR(100) NOT NULL, 
      [RussianName] NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_Style] PRIMARY KEY CLUSTERED([StyleId] ASC)
+     CONSTRAINT [PK_StyleType] PRIMARY KEY CLUSTERED([StyleTypeId] ASC)
 );
 GO
 
