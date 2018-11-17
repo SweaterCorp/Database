@@ -92,8 +92,8 @@ CREATE TABLE [SizeType]
 (
      [SizeTypeId]  INT IDENTITY(1, 1) NOT NULL, 
      [Russian] NVARCHAR(10) NOT NULL, 
-	 [Other] NVARCHAR(10) NOT NULL, 
-     [CountySizeType]  NVARCHAR(10) NOT NULL, 
+	 [OtherCountry] NVARCHAR(10) NOT NULL, 
+     [CountyType]  NVARCHAR(10) NOT NULL, 
      CONSTRAINT [PK_SizeType] PRIMARY KEY CLUSTERED([SizeTypeId] ASC)
 );
 GO
@@ -121,11 +121,9 @@ GO
 CREATE TABLE [dbo].[ColorType]
 (
      [ColorTypeId] INT IDENTITY(1, 1) NOT NULL, 
-	 [R] TINYINT NULL,
-	 [G] TINYINT NULL,
-	 [B] TINYINT NULL,
-     [EnglishName] NVARCHAR(100) NOT NULL, 
-     [RussianName] NVARCHAR(100) NOT NULL, 
+	 [Hex] NVARCHAR(6) NOT NULL DEFAULT(''),
+     [EnglishName] NVARCHAR(100) NOT NULL DEFAULT(''), 
+     [RussianName] NVARCHAR(100) NOT NULL DEFAULT(''), 
      CONSTRAINT [PK_ColorType] PRIMARY KEY CLUSTERED([ColorTypeId] ASC)
 );
 GO
@@ -133,8 +131,8 @@ GO
 CREATE TABLE [dbo].[StyleType]
 (
      [StyleTypeId] INT IDENTITY(1, 1) NOT NULL, 
-     [EnglishName] NVARCHAR(100) NOT NULL, 
-     [RussianName] NVARCHAR(100) NOT NULL, 
+     [EnglishName] NVARCHAR(100) NOT NULL DEFAULT(''), 
+     [RussianName] NVARCHAR(100) NOT NULL DEFAULT(''), 
      CONSTRAINT [PK_StyleType] PRIMARY KEY CLUSTERED([StyleTypeId] ASC)
 );
 GO
@@ -169,7 +167,7 @@ GO
 CREATE TABLE [ProductSizeType]
 (
      [ProductId]     INT NOT NULL, 
-     [SizeTypeId]        INT NOT NULL, 
+     [SizeTypeId]    INT NOT NULL, 
 	 [IsAvailable]   BIT NOT NULL DEFAULT(0), 
      [UpdatedDate]   DATETIME2 NOT NULL DEFAULT(GETDATE()), 
      CONSTRAINT [PK_ProductSizeType] PRIMARY KEY CLUSTERED([ProductId], [SizeTypeId])
