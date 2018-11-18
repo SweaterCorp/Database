@@ -93,10 +93,11 @@ GO
 
 CREATE TABLE [SizeType]
 (
-     [SizeTypeID]  INT IDENTITY(1, 1) NOT NULL, 
-     [Russian] NVARCHAR(10) NOT NULL, 
-	 [OtherCountry] NVARCHAR(10) NOT NULL, 
-     [CountyType]  NVARCHAR(10) NOT NULL, 
+     [SizeTypeID]	    INT IDENTITY(1, 1) NOT NULL, 
+	 [IsAvailable]	    BIT NOT NULL DEFAULT(1), 
+     [Russian]          NVARCHAR(10) NOT NULL, 
+	 [OtherCountrySize] NVARCHAR(10) NOT NULL, 
+     [CountyType]       NVARCHAR(10) NOT NULL, 
      CONSTRAINT [PK_SizeType] PRIMARY KEY CLUSTERED([SizeTypeID] ASC)
 );
 GO
@@ -154,6 +155,7 @@ CREATE TABLE [Product]
      [ProductID]       INT IDENTITY(1, 1) NOT NULL, 
      [BrandID]         INT NOT NULL, 
      [VendorCode]      NVARCHAR(30) NOT NULL, 
+	 [IsAvailable]	   BIT NOT NULL DEFAULT(1), 
      [CategoryID]      INT NOT NULL, 
      [StyleTypeID]     INT NOT NULL, 
 	 [PrintTypeID]     INT NOT NULL, 
@@ -181,7 +183,7 @@ CREATE TABLE [ProductSizeType]
 (
      [ProductID]     INT NOT NULL, 
      [SizeTypeID]    INT NOT NULL, 
-	 [IsAvailable]   BIT NOT NULL DEFAULT(0), 
+	 [IsAvailable]   BIT NOT NULL DEFAULT(1), 
      [UpdatedDate]   DATETIME2 NOT NULL DEFAULT(GETDATE()), 
      CONSTRAINT [PK_ProductSizeType] PRIMARY KEY CLUSTERED([ProductID], [SizeTypeID])
 );
@@ -191,7 +193,6 @@ CREATE TABLE [ProductColorType]
 (
      [ProductID]     INT NOT NULL, 
      [ColorTypeID]   INT NOT NULL, 
-	 [IsAvailable]   BIT NOT NULL DEFAULT(0), 
      [UpdatedDate]   DATETIME2 NOT NULL DEFAULT(GETDATE()), 
      CONSTRAINT [PK_ProductColorType] PRIMARY KEY CLUSTERED([ProductID], [ColorTypeID])
 );
