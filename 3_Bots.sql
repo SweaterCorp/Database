@@ -1,3 +1,4 @@
+
 USE [Zebra];
 GO
 
@@ -122,18 +123,20 @@ GO
 
 
 
-CREATE PROCEDURE uspAddProductSize
+CREATE PROCEDURE uspAddProductSizeTypeBot
 ( 
-				 @vendorCode nvarchar(50), @russianSize nvarchar(50), @otherCountrySize nvarchar(50), @otherCountrySizeType nvarchar(50)
+				 @vendorCode nvarchar(50), @russianSize nvarchar(50), @isAvailable bit, @otherCountrySize nvarchar(50), @otherCountrySizeType nvarchar(50)
 )
 AS
 BEGIN
-	IF EXISTS
-	(
-		SELECT *
-		FROM Product
-		WHERE VendorCode = @vendorCode
-	)
+
+	DECLARE @productId int;
+
+	SELECT @productId = ProductID
+	FROM Product
+	WHERE VendorCode = @vendorCode;
+
+	IF @productId IS NULL
 	BEGIN
 		RETURN;
 	END;
@@ -147,15 +150,57 @@ BEGIN
 
 	IF @sizeTypeId IS NULL
 	BEGIN
-		INSERT INTO [dbo].SizeType( Russian, OtherCountry, CountyType )
-		VALUES( @russianSize, @otherCountrySize, @otherCountrySizeType);
+		INSERT INTO [dbo].SizeType( Russian, IsAvailable, OtherCountrySize, CountyType )
+		VALUES( @russianSize, @isAvailable, @otherCountrySize, @otherCountrySizeType );
 	END;
 
 	SELECT @sizeTypeId = @@IDENTITY;
 
 	-- product sizeType
 
-	INSERT INTO [dbo].[Product]( [BrandID], [VendorCode], [CategoryID], [StyleTypeID], [PrintTypeID], [Price], [Description], [Link], [MadeInCountryID], [PhotoPreviewUrl], [CreatedDate], [IsDeleted] )
-	VALUES( @brandId, @vendorCode, @categoryId, @styleId, @printId, @price, '', @link, @countryId, '', GETDATE(), 0 );
+	INSERT INTO [dbo].ProductSizeType( ProductID, SizeTypeID, IsAvailable, UpdatedDate )
+	VALUES( @productId, @sizeTypeId, @isAvailable, GETDATE() );
+
+END;
+
+GO
+
+CREATE PROCEDURE uspAddProductColorTypeBot
+( 
+				 @vendorCode nvarchar(50), @russianColorName nvarchar(50)
+)
+AS
+BEGIN
+
+	DECLARE @productId int;
+
+	SELECT @productId = ProductID
+	FROM Product
+	WHERE VendorCode = @vendorCode;
+
+	IF @productId IS NULL
+	BEGIN
+		RETURN;
+	END;
+
+	---- color 
+	DECLARE @colorTypeId int;
+
+	SELECT @colorTypeId = SizeTypeID
+	FROM dbo.SizeType
+	WHERE Russian = @russianColorName;
+
+	IF @colorTypeId IS NULL
+	BEGIN
+		INSERT INTO [dbo].SizeType( Russian )
+		VALUES( @russianColorName );
+	END;
+
+	SELECT @colorTypeId = @@IDENTITY;
+
+	-- product sizeType
+
+	INSERT INTO [dbo].ProductColorType( ProductID, ColorTypeID )
+	VALUES( @productId, @colorTypeId );
 
 END;
