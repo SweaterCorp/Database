@@ -5,25 +5,28 @@ GO
 USE [Zebra];
 GO
 
+-------------------------------------
+--//////////////////////////////////
+------------------------------------
 -- Countries and cities
 
 CREATE TABLE [Country]
 (
-     [CountryId]   INT IDENTITY(1, 1) NOT NULL, 
+     [CountryID]   INT IDENTITY(1, 1) NOT NULL, 
      [FlagUrl]     NVARCHAR(100) NOT NULL DEFAULT(''), 
-     [EnglishName] NVARCHAR(100) NOT NULL DEFAULT(''), 
-     [RussianName] NVARCHAR(100) NOT NULL DEFAULT(''), 
-     CONSTRAINT [PK_Country] PRIMARY KEY CLUSTERED([CountryId] ASC)
+     [EnglishName] NVARCHAR(50) NOT NULL DEFAULT(''), 
+     [RussianName] NVARCHAR(50) NOT NULL DEFAULT(''), 
+     CONSTRAINT [PK_Country] PRIMARY KEY CLUSTERED([CountryID] ASC)
 );
 GO
 
 CREATE TABLE [City]
 (
-     [CityId]      INT IDENTITY(1, 1) NOT NULL, 
-     [CountryId]   INT NOT NULL, 
-     [EnglishName] NVARCHAR(100) NOT NULL, 
-     [RussianName] NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_City] PRIMARY KEY CLUSTERED([CityId] ASC)
+     [CityID]      INT IDENTITY(1, 1) NOT NULL, 
+     [CountryID]   INT NOT NULL, 
+     [EnglishName] NVARCHAR(50) NOT NULL, 
+     [RussianName] NVARCHAR(50) NOT NULL, 
+     CONSTRAINT [PK_City] PRIMARY KEY CLUSTERED([CityID] ASC)
 );
 GO
 
@@ -34,52 +37,52 @@ GO
 
 CREATE TABLE [User]
 (
-     [UserId]           INT NOT NULL, 
+     [UserID]           INT NOT NULL, 
      [FirstName]        NVARCHAR(50) NOT NULL, 
      [LastName]         NVARCHAR(50) NOT NULL, 
-     [SexId]        INT NOT NULL DEFAULT(0), 
-     [HumanColorId] INT NOT NULL DEFAULT(0), 
-     [ShapeId]      INT NOT NULL DEFAULT(0), 
+     [SexID]        INT NOT NULL DEFAULT(0), 
+     [HumanColorID] INT NOT NULL DEFAULT(0), 
+     [ShapeID]      INT NOT NULL DEFAULT(0), 
      [BirthDate]        DATETIME2 NOT NULL DEFAULT(GETDATE()), 
      [CityID]           INT NOT NULL DEFAULT(0)
-	 CONSTRAINT [PK_User] PRIMARY KEY ([UserId] ASC)
+	 CONSTRAINT [PK_User] PRIMARY KEY ([UserID] ASC)
 );
 GO
 
 CREATE TABLE [UserPhoto]
 (
-     [UserPhotoId] INT IDENTITY(1, 1) NOT NULL, 
-     [UserId]      INT NOT NULL, 
+     [UserPhotoID] INT IDENTITY(1, 1) NOT NULL, 
+     [UserID]      INT NOT NULL, 
      [PhotoUrl]    NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_UserPhoto] PRIMARY KEY CLUSTERED([UserPhotoId] ASC)
+     CONSTRAINT [PK_UserPhoto] PRIMARY KEY CLUSTERED([UserPhotoID] ASC)
 );
 GO
 
-CREATE TABLE [dbo].[SexTypeId]
+CREATE TABLE [dbo].[SexTypeID]
 (
-     [SexTypeId]   INT NOT NULL, 
-     [EnglishName] NVARCHAR(100) NOT NULL, 
-     [RussianName] NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_Social] PRIMARY KEY CLUSTERED([SexTypeId] ASC)
+     [SexTypeID]   INT NOT NULL, 
+     [EnglishName] NVARCHAR(50) NOT NULL, 
+     [RussianName] NVARCHAR(50) NOT NULL, 
+     CONSTRAINT [PK_Social] PRIMARY KEY CLUSTERED([SexTypeID] ASC)
 );
 GO
 
 CREATE TABLE [dbo].[ShapeType]
 (
-     [ShapeTypeId] INT NOT NULL, 
-     [EnglishName] NVARCHAR(100) NOT NULL, 
-     [RussianName] NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_ShapeType] PRIMARY KEY CLUSTERED([ShapeTypeId] ASC)
+     [ShapeTypeID] INT NOT NULL, 
+     [EnglishName] NVARCHAR(50) NOT NULL, 
+     [RussianName] NVARCHAR(50) NOT NULL, 
+     CONSTRAINT [PK_ShapeType] PRIMARY KEY CLUSTERED([ShapeTypeID] ASC)
 );
 GO
 
 CREATE TABLE [dbo].[HumanColorType]
 (
-     [HumanColorTypeId] INT NOT NULL, 
+     [HumanColorTypeID] INT NOT NULL, 
      [Hex]				VARCHAR(6) NULL,
-     [EnglishName]      NVARCHAR(100) NOT NULL, 
-     [RussianName]      NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_HumanColorType] PRIMARY KEY CLUSTERED([HumanColorTypeId] ASC)
+     [EnglishName]      NVARCHAR(50) NOT NULL, 
+     [RussianName]      NVARCHAR(50) NOT NULL, 
+     CONSTRAINT [PK_HumanColorType] PRIMARY KEY CLUSTERED([HumanColorTypeID] ASC)
 );
 GO
 
@@ -90,96 +93,106 @@ GO
 
 CREATE TABLE [SizeType]
 (
-     [SizeTypeId]  INT IDENTITY(1, 1) NOT NULL, 
+     [SizeTypeID]  INT IDENTITY(1, 1) NOT NULL, 
      [Russian] NVARCHAR(10) NOT NULL, 
 	 [OtherCountry] NVARCHAR(10) NOT NULL, 
      [CountyType]  NVARCHAR(10) NOT NULL, 
-     CONSTRAINT [PK_SizeType] PRIMARY KEY CLUSTERED([SizeTypeId] ASC)
+     CONSTRAINT [PK_SizeType] PRIMARY KEY CLUSTERED([SizeTypeID] ASC)
 );
 GO
 
 CREATE TABLE [Brand]
 (
-     [BrandId] INT IDENTITY(1, 1) NOT NULL, 
+     [BrandID] INT IDENTITY(1, 1) NOT NULL, 
      [Name]    NVARCHAR(50) NOT NULL, 
-     [Site]    NVARCHAR(100) NOT NULL, 
-     [LogoUrl] NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_Brand] PRIMARY KEY CLUSTERED([BrandId] ASC)
+     [Site]    NVARCHAR(100) NOT NULL DEFAULT(''), 
+     [LogoUrl] NVARCHAR(100) NOT NULL DEFAULT(''), 
+     CONSTRAINT [PK_Brand] PRIMARY KEY CLUSTERED([BrandID] ASC)
 );
 GO
 
 CREATE TABLE [dbo].[Category]
 (
-     [CategoryId]       INT IDENTITY(1, 1) NOT NULL, 
-     [CategoryPhotoUrl] NVARCHAR(100) NOT NULL, 
-     [EnglishName]      NVARCHAR(100) NOT NULL, 
-     [RussianName]      NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_Category] PRIMARY KEY CLUSTERED([CategoryId] ASC)
+     [CategoryID]       INT IDENTITY(1, 1) NOT NULL, 
+     [CategoryPhotoUrl] NVARCHAR(100) NOT NULL DEFAULT(''), 
+     [EnglishName]      NVARCHAR(50) NOT NULL DEFAULT(''), 
+     [RussianName]      NVARCHAR(50) NOT NULL DEFAULT(''), 
+     CONSTRAINT [PK_Category] PRIMARY KEY CLUSTERED([CategoryID] ASC)
 );
 GO
 
 CREATE TABLE [dbo].[ColorType]
 (
-     [ColorTypeId] INT IDENTITY(1, 1) NOT NULL, 
+     [ColorTypeID] INT IDENTITY(1, 1) NOT NULL, 
 	 [Hex] NVARCHAR(6) NOT NULL DEFAULT(''),
-     [EnglishName] NVARCHAR(100) NOT NULL DEFAULT(''), 
-     [RussianName] NVARCHAR(100) NOT NULL DEFAULT(''), 
-     CONSTRAINT [PK_ColorType] PRIMARY KEY CLUSTERED([ColorTypeId] ASC)
+     [EnglishName] NVARCHAR(50) NOT NULL DEFAULT(''), 
+     [RussianName] NVARCHAR(50) NOT NULL DEFAULT(''), 
+     CONSTRAINT [PK_ColorType] PRIMARY KEY CLUSTERED([ColorTypeID] ASC)
+);
+GO
+
+CREATE TABLE [dbo].[PrintType]
+(
+     [PrintTypeID] INT IDENTITY(1, 1) NOT NULL, 
+     [EnglishName] NVARCHAR(50) NOT NULL DEFAULT(''), 
+     [RussianName] NVARCHAR(50) NOT NULL DEFAULT(''), 
+     CONSTRAINT [PK_PrintType] PRIMARY KEY CLUSTERED([PrintTypeID] ASC)
 );
 GO
 
 CREATE TABLE [dbo].[StyleType]
 (
-     [StyleTypeId] INT IDENTITY(1, 1) NOT NULL, 
-     [EnglishName] NVARCHAR(100) NOT NULL DEFAULT(''), 
-     [RussianName] NVARCHAR(100) NOT NULL DEFAULT(''), 
-     CONSTRAINT [PK_StyleType] PRIMARY KEY CLUSTERED([StyleTypeId] ASC)
+     [StyleTypeID] INT IDENTITY(1, 1) NOT NULL, 
+     [EnglishName] NVARCHAR(50) NOT NULL DEFAULT(''), 
+     [RussianName] NVARCHAR(50) NOT NULL DEFAULT(''), 
+     CONSTRAINT [PK_StyleType] PRIMARY KEY CLUSTERED([StyleTypeID] ASC)
 );
 GO
 
 CREATE TABLE [Product]
 (
-     [ProductId]       INT IDENTITY(1, 1) NOT NULL, 
-     [BrandId]         INT NOT NULL, 
+     [ProductID]       INT IDENTITY(1, 1) NOT NULL, 
+     [BrandID]         INT NOT NULL, 
      [VendorCode]      NVARCHAR(30) NOT NULL, 
-     [CategoryId]      INT NOT NULL, 
-     [StyleTypeId]     INT NOT NULL, 
-     [Price]           INT NOT NULL, 
+     [CategoryID]      INT NOT NULL, 
+     [StyleTypeID]     INT NOT NULL, 
+	 [PrintTypeID]     INT NOT NULL, 
+     [Price]           DECIMAL(6,2) NOT NULL, 
      [Description]     NVARCHAR(400) NOT NULL, 
      [Link]            NVARCHAR(100) NOT NULL, 
-     [MadeInCountryId] INT NOT NULL, 
+     [MadeInCountryID] INT NOT NULL, 
      [PhotoPreviewUrl] NVARCHAR(100) NOT NULL, 
      [CreatedDate]     DATETIME2 NOT NULL DEFAULT(GETDATE()), 
      [IsDeleted]       BIT NOT NULL DEFAULT(0), 
-     CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED([ProductId] ASC)
+     CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED([ProductID] ASC)
 );
 GO
 
 CREATE TABLE [ProductPhoto]
 (
-     [ProductPhotoId] INT IDENTITY(1, 1) NOT NULL, 
-     [ProductId]      INT NOT NULL, 
+     [ProductPhotoID] INT IDENTITY(1, 1) NOT NULL, 
+     [ProductID]      INT NOT NULL, 
      [PhotoUrl]       NVARCHAR(100) NOT NULL, 
-     CONSTRAINT [PK_ProductPhoto] PRIMARY KEY CLUSTERED([ProductPhotoId] ASC)
+     CONSTRAINT [PK_ProductPhoto] PRIMARY KEY CLUSTERED([ProductPhotoID] ASC)
 );
 GO
 
 CREATE TABLE [ProductSizeType]
 (
-     [ProductId]     INT NOT NULL, 
-     [SizeTypeId]    INT NOT NULL, 
+     [ProductID]     INT NOT NULL, 
+     [SizeTypeID]    INT NOT NULL, 
 	 [IsAvailable]   BIT NOT NULL DEFAULT(0), 
      [UpdatedDate]   DATETIME2 NOT NULL DEFAULT(GETDATE()), 
-     CONSTRAINT [PK_ProductSizeType] PRIMARY KEY CLUSTERED([ProductId], [SizeTypeId])
+     CONSTRAINT [PK_ProductSizeType] PRIMARY KEY CLUSTERED([ProductID], [SizeTypeID])
 );
 GO
 
 CREATE TABLE [ProductColorType]
 (
-     [ProductId]     INT NOT NULL, 
-     [ColorTypeId]   INT NOT NULL, 
+     [ProductID]     INT NOT NULL, 
+     [ColorTypeID]   INT NOT NULL, 
 	 [IsAvailable]   BIT NOT NULL DEFAULT(0), 
      [UpdatedDate]   DATETIME2 NOT NULL DEFAULT(GETDATE()), 
-     CONSTRAINT [PK_ProductColorType] PRIMARY KEY CLUSTERED([ProductId], [ColorTypeId])
+     CONSTRAINT [PK_ProductColorType] PRIMARY KEY CLUSTERED([ProductID], [ColorTypeID])
 );
 GO
