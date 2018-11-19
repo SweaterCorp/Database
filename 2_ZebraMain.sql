@@ -153,7 +153,7 @@ CREATE TABLE [Product]
      [Description]     NVARCHAR(400) NOT NULL, 
      [Link]            NVARCHAR(100) NOT NULL, 
      [MadeInCountryID] INT NOT NULL, 
-     [PhotoPreviewUrl] NVARCHAR(100) NOT NULL, 
+     [PreviewPhotoUrl] NVARCHAR(100) NOT NULL, 
      [CreatedDate]     DATETIME2 NOT NULL DEFAULT(GETDATE()), 
      [IsDeleted]       BIT NOT NULL DEFAULT(0), 
      CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED([ProductID] ASC)
