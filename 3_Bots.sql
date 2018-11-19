@@ -5,9 +5,9 @@ GO
 
 --SET IDENTITY_INSERT [dbo].[Questions] OFF
 
-ALTER PROCEDURE [dbo].[uspAddProductBot]
+CREATE PROCEDURE [dbo].[uspAddProductBot]
 ( 
-				@vendorCode nvarchar(50), @brandName nvarchar(50), @categoryName nvarchar(50), @colorName nvarchar(50), @printName nvarchar(50), @price decimal(8, 2), @madeInCountry nvarchar(50), @link nvarchar(100)
+				@vendorCode nvarchar(50), @brandName nvarchar(50),  @categoryName nvarchar(50), @colorName nvarchar(50), @printName nvarchar(50), @price decimal(8, 2), @madeInCountry nvarchar(50), @link nvarchar(100), @previewPhotoUrl nvarchar(50)
 )
 AS
 BEGIN
@@ -100,8 +100,8 @@ BEGIN
 
 	-- product
 
-	INSERT INTO [dbo].[Product]( [BrandID], [VendorCode], [CategoryID], [PrintTypeID], [Price], [Description], [Link], [MadeInCountryID], [PhotoPreviewUrl], [CreatedDate], [IsDeleted] )
-	VALUES( @brandId, @vendorCode, @categoryId, @printId, @price, '', @link, @countryId, '', GETDATE(), 0 );
+	INSERT INTO [dbo].[Product]( [BrandID], [VendorCode], [CategoryID], [PrintTypeID], [Price], [Description], [Link], [MadeInCountryID], [PreviewPhotoUrl], [CreatedDate], [IsDeleted] )
+	VALUES( @brandId, @vendorCode, @categoryId, @printId, @price, '', @link, @countryId, @previewPhotoUrl, GETDATE(), 0 );
 
 	
 	SELECT @productId = @@IDENTITY;
@@ -110,7 +110,7 @@ END;
 
 GO
 
-ALTER PROCEDURE uspAddProductSizeTypeBot
+CREATE PROCEDURE uspAddProductSizeTypeBot
 ( 
 				@vendorCode nvarchar(50), @isAvailable bit, @russianSize nvarchar(50), @otherCountrySize nvarchar(50), @otherCountrySizeType nvarchar(50)
 )
@@ -165,7 +165,7 @@ END;
 
 GO
 
-ALTER PROCEDURE uspAddProductColorTypeBot
+CREATE PROCEDURE uspAddProductColorTypeBot
 ( 
 				@vendorCode nvarchar(50), @russianColorName nvarchar(50)
 )
@@ -212,5 +212,45 @@ BEGIN
 	END;
 
 	RETURN @colorTypeId
+
+END;
+
+GO
+
+CREATE PROCEDURE uspAddProductPhotoBot
+( 
+				@vendorCode nvarchar(50), @photoUrl nvarchar(100)
+)
+AS
+BEGIN
+
+	DECLARE  @productId int
+	SELECT @productId = ProductID
+	FROM Product
+	WHERE VendorCode = @vendorCode;
+
+	IF @productId IS NULL
+	BEGIN
+		RETURN;
+	END;
+
+	---- color 
+
+	DECLARE @productPhotoID int 
+	SELECT @productPhotoID = ProductPhotoID
+	FROM dbo.ProductPhoto
+	WHERE ProductID = @productId AND PhotoUrl = @photoUrl;
+
+	IF @productPhotoID IS NULL
+	BEGIN
+		INSERT INTO [dbo].ProductPhoto( ProductID, PhotoUrl )
+		VALUES( @productId, @photoUrl );
+
+		SET @productPhotoID = @@IDENTITY;
+	END;
+
+	
+
+	RETURN @productPhotoID
 
 END;
