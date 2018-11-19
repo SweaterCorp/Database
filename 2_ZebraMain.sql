@@ -141,15 +141,6 @@ CREATE TABLE [dbo].[PrintType]
 );
 GO
 
-CREATE TABLE [dbo].[StyleType]
-(
-     [StyleTypeID] INT IDENTITY(1, 1) NOT NULL, 
-     [EnglishName] NVARCHAR(50) NOT NULL DEFAULT(''), 
-     [RussianName] NVARCHAR(50) NOT NULL DEFAULT(''), 
-     CONSTRAINT [PK_StyleType] PRIMARY KEY CLUSTERED([StyleTypeID] ASC)
-);
-GO
-
 CREATE TABLE [Product]
 (
      [ProductID]       INT IDENTITY(1, 1) NOT NULL, 
@@ -157,9 +148,8 @@ CREATE TABLE [Product]
      [VendorCode]      NVARCHAR(30) NOT NULL, 
 	 [IsAvailable]	   BIT NOT NULL DEFAULT(1), 
      [CategoryID]      INT NOT NULL, 
-     [StyleTypeID]     INT NOT NULL, 
 	 [PrintTypeID]     INT NOT NULL, 
-     [Price]           DECIMAL(6,2) NOT NULL, 
+     [Price]           DECIMAL(9,2) NOT NULL, 
      [Description]     NVARCHAR(400) NOT NULL, 
      [Link]            NVARCHAR(100) NOT NULL, 
      [MadeInCountryID] INT NOT NULL, 
