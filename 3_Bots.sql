@@ -105,6 +105,21 @@ BEGIN
 
 	
 	SELECT @productId = @@IDENTITY;
+
+	-- colorType
+
+	IF NOT EXISTS
+	(
+		SELECT *
+		FROM ProductColorType
+		WHERE ProductID = @productId AND 
+			  ColorTypeID = @colorId
+	)
+	BEGIN
+		INSERT INTO [dbo].ProductColorType( ProductID, ColorTypeID )
+		VALUES( @productId, @colorId );
+	END;
+
 	RETURN @productId
 END;
 
@@ -134,11 +149,11 @@ BEGIN
 	FROM dbo.SizeType
 	WHERE Russian = @russianSize AND 
 		  OtherCountrySize = @otherCountrySize AND 
-		  CountyType = @otherCountrySizeType;
+		  CountryType = @otherCountrySizeType;
 
 	IF @sizeTypeId IS NULL
 	BEGIN
-		INSERT INTO [dbo].SizeType( Russian, IsAvailable, OtherCountrySize, CountyType )
+		INSERT INTO [dbo].SizeType( Russian, IsAvailable, OtherCountrySize, CountryType )
 		VALUES( @russianSize, @isAvailable, @otherCountrySize, @otherCountrySizeType );
 
 		SET @sizeTypeId = @@IDENTITY;
