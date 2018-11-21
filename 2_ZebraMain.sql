@@ -97,7 +97,7 @@ CREATE TABLE [SizeType]
 	 [IsAvailable]	    BIT NOT NULL DEFAULT(1), 
      [Russian]          NVARCHAR(10) NOT NULL, 
 	 [OtherCountrySize] NVARCHAR(10) NOT NULL, 
-     [CountyType]       NVARCHAR(10) NOT NULL, 
+     [CountryType]       NVARCHAR(10) NOT NULL, 
      CONSTRAINT [PK_SizeType] PRIMARY KEY CLUSTERED([SizeTypeID] ASC)
 );
 GO
