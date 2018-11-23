@@ -97,7 +97,7 @@ CREATE TABLE [SizeType]
 	 [IsAvailable]	    BIT NOT NULL DEFAULT(1), 
      [Russian]          NVARCHAR(10) NOT NULL, 
 	 [OtherCountrySize] NVARCHAR(10) NOT NULL, 
-     [CountryType]       NVARCHAR(10) NOT NULL, 
+     [CountryType]      NVARCHAR(10) NOT NULL, 
      CONSTRAINT [PK_SizeType] PRIMARY KEY CLUSTERED([SizeTypeID] ASC)
 );
 GO
@@ -115,6 +115,7 @@ GO
 CREATE TABLE [dbo].[Category]
 (
      [CategoryID]       INT IDENTITY(1, 1) NOT NULL, 
+	 [ClicksCount]      INT NOT NULL DEFAULT(0),
      [CategoryPhotoUrl] NVARCHAR(100) NOT NULL DEFAULT(''), 
      [EnglishName]      NVARCHAR(50) NOT NULL DEFAULT(''), 
      [RussianName]      NVARCHAR(50) NOT NULL DEFAULT(''), 
@@ -125,7 +126,7 @@ GO
 CREATE TABLE [dbo].[ColorType]
 (
      [ColorTypeID] INT IDENTITY(1, 1) NOT NULL, 
-	 [Hex] NVARCHAR(6) NOT NULL DEFAULT(''),
+	 [Hex]		   NVARCHAR(6) NOT NULL DEFAULT(''),
      [EnglishName] NVARCHAR(50) NOT NULL DEFAULT(''), 
      [RussianName] NVARCHAR(50) NOT NULL DEFAULT(''), 
      CONSTRAINT [PK_ColorType] PRIMARY KEY CLUSTERED([ColorTypeID] ASC)
@@ -144,6 +145,7 @@ GO
 CREATE TABLE [Product]
 (
      [ProductID]       INT IDENTITY(1, 1) NOT NULL, 
+	 [ClicksCount]     INT NOT NULL DEFAULT(0),
      [BrandID]         INT NOT NULL, 
      [VendorCode]      NVARCHAR(30) NOT NULL, 
 	 [IsAvailable]	   BIT NOT NULL DEFAULT(1), 
