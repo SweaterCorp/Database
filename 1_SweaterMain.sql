@@ -66,6 +66,13 @@ CREATE TABLE [Product]
      [CategoryID]            INT NOT NULL, 
 	 [ShopColorId]           INT NOT NULL, 
 	 [ShopTypeId]            INT NOT NULL, 
+	 [Color1Id]              INT NOT NULL DEFAULT(-1),  
+	 [Color2Id]              INT NOT NULL DEFAULT(-1), 
+	 [Color3Id]              INT NOT NULL DEFAULT(-1), 
+	 [Color4Id]              INT NOT NULL DEFAULT(-1), 
+	 [Color5Id]              INT NOT NULL DEFAULT(-1), 
+	 [Color6Id]              INT NOT NULL DEFAULT(-1), 
+	 [Color7Id]              INT NOT NULL DEFAULT(-1), 
 	 [PrintTypeID]           INT NOT NULL DEFAULT(0), 
 	 [ExtraPrintTypeID]      INT NOT NULL DEFAULT(0), 
      [Price]                 DECIMAL(9,2) NOT NULL, 
@@ -106,13 +113,18 @@ GO
 
 CREATE TABLE [ColorsMatching]
 (
-     [ColorID]        INT NOT NULL, 
-     [ColorGroupID]   INT NOT NULL, 
-	 [Autumn]         INT NOT NULL, 
-	 [Spring]         REAL NOT NULL, 
-	 [Summer]         REAL NOT NULL, 
-	 [Winter]         REAL NOT NULL, 
-     [CreatedDate]    DATETIME2 NOT NULL DEFAULT(GETDATE()), 
-     CONSTRAINT [PK_PColorsMatching] PRIMARY KEY CLUSTERED([ColorID])
+	 [ColorsMatchingID] INT IDENTITY(1, 1) NOT NULL,
+     [ColorID]          INT UNIQUE, 
+     [ColorGroupID]     INT NOT NULL, 
+	 [Autumn]           REAL NOT NULL, 
+	 [Spring]           REAL NOT NULL, 
+	 [Summer]           REAL NOT NULL, 
+	 [Winter]           REAL NOT NULL, 
+     [CreatedDate]      DATETIME2 NOT NULL DEFAULT(GETDATE()), 
+     CONSTRAINT [PK_PColorsMatching] PRIMARY KEY CLUSTERED([ColorsMatchingID])
 );
+GO
+CREATE UNIQUE INDEX ix_colorid_colorgroup
+    ON [ColorsMatching] (ColorId, ColorGroupID)
+    WITH FILLFACTOR= 80;
 GO
