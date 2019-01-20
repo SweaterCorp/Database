@@ -111,20 +111,23 @@ GO
 ------------------------------------
 -- Color's Data
 
-CREATE TABLE [ColorsMatching]
+CREATE TABLE [ColorMatching]
 (
-	 [ColorsMatchingID] INT IDENTITY(1, 1) NOT NULL,
-     [ColorID]          INT UNIQUE, 
-     [ColorGroupID]     INT NOT NULL, 
-	 [Autumn]           REAL NOT NULL, 
-	 [Spring]           REAL NOT NULL, 
-	 [Summer]           REAL NOT NULL, 
-	 [Winter]           REAL NOT NULL, 
-     [CreatedDate]      DATETIME2 NOT NULL DEFAULT(GETDATE()), 
-     CONSTRAINT [PK_PColorsMatching] PRIMARY KEY CLUSTERED([ColorsMatchingID])
+	 [ColorMatchingID]       INT IDENTITY(1, 1) NOT NULL,
+     [ColorID]               INT NOT NULL, 
+	 [PersonalColorTypeID]   INT NOT NULL, 
+	 [RedPink]               REAL NOT NULL, 
+	 [OrangeYellow]          REAL NOT NULL, 
+	 [Green]                 REAL NOT NULL, 
+	 [Blue]                  REAL NOT NULL, 
+	 [Purple]                REAL NOT NULL, 
+	 [BrownBeige]            REAL NOT NULL, 
+	 [GrayBlackWhite]        REAL NOT NULL, 
+     [CreatedDate]           DATETIME2 NOT NULL DEFAULT(GETDATE()), 
+     CONSTRAINT [PK_ColorMatching] PRIMARY KEY CLUSTERED([ColorMatchingID])
 );
 GO
 CREATE UNIQUE INDEX ix_colorid_colorgroup
-    ON [ColorsMatching] (ColorId, ColorGroupID)
+    ON [ColorMatching] (ColorId, [PersonalColorTypeID])
     WITH FILLFACTOR= 80;
 GO
