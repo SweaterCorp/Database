@@ -8,7 +8,7 @@ CREATE FUNCTION [dbo].[ufnGetCategorySizes]
 )
 RETURNS @Size TABLE
 ( 
-					sizeTypeID int, russianSiye nvarchar(10), otherCountry nvarchar(10), countryCode nvarchar(10)
+					sizeTypeID int, russianSize nvarchar(10), otherCountry nvarchar(10), countryCode nvarchar(10)
 )
 BEGIN
 	INSERT INTO @Size
